@@ -22,6 +22,7 @@ import axios from 'axios'
 import CodeEditor from './components/CodeEditor.vue'
 import CodeInput from './components/CodeInput.vue'
 import OutputPanel from './components/OutputPanel.vue'
+import { getGeminiExplanation } from './api/gemini'
 
 export default defineComponent({
   name: 'App',
@@ -31,7 +32,7 @@ export default defineComponent({
     const error = ref<string>('')
     const llmExplanation = ref<string>('')
 
-    const runCode = async (code: string) => {
+    /*const runCode = async (code: string) => {
       try {
         const response = await axios.post('http://localhost:3000/run', { code }) // Replace with backend URL
         output.value = response.data.output
@@ -40,11 +41,26 @@ export default defineComponent({
       } catch (err: any) {
         error.value = `Failed to execute code: ${err.message}`
       }
-    }
+    }*/
+
+    const runCode = async (code: string) => {
+  try {
+    const response = await axios.post('http://127.0.0.1:5000/api/run', { code })
+    output.value = response.data.output
+    error.value = response.data.error || ''
+
+    // 🌟 Ask Gemini for explanation
+    const explanation = await getGeminiExplanation(code)
+    llmExplanation.value = explanation
+
+  } catch (err: any) {
+    error.value = `Failed to execute code: ${err.message}`
+  }
+}
 
     const processNaturalInput = async (input: string) => {
       try {
-        const response = await axios.post('http://localhost:3000/natural', { input }) // Replace with backend URL
+        const response = await axios.post('http://127.0.0.1:5000/api/natural', { input })
         output.value = response.data.output
         error.value = response.data.error || ''
         llmExplanation.value = response.data.explanation
