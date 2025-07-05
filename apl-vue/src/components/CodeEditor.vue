@@ -2,9 +2,8 @@
 <template>
     <div class="cont">
         <p class="text-xl">Source Code</p>
-        <VueMonacoEditor v-model:value="code" theme="vs-dark" language="mylang"
-            :options="{ automaticLayout: true, minimap: { enabled: false } }"
-            style="height: 50vh; min-height: 200px; max-height: 500px" />
+        <VueMonacoEditor class="editor" v-model:value="code" theme="vs-dark" language="mylang"
+            :options="{ automaticLayout: true, minimap: { enabled: false } }" />
         <button @click="runCode">Run Code</button>
     </div>
 </template>
