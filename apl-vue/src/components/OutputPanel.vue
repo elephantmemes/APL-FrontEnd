@@ -4,7 +4,7 @@
         <h2 class="text-xl">Output</h2>
         <pre v-if="output">{{ output }}</pre>
         <pre v-if="error" class="error">{{ error }}</pre>
-        <div v-if="llmExplanation" class="cont">
+        <!-- <div v-if="llmExplanation" class="cont">
             <h3><b>LLM Explanation</b></h3>
             <p>{{ llmExplanation }}</p>
         </div>
@@ -13,7 +13,7 @@
             <div v-for="(step, index) in steps" :key="index" :class="['step', step.status]">
                 {{ step.message }}
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -30,11 +30,11 @@ export default defineComponent({
     props: {
         output: { type: String, default: '' },
         error: { type: String, default: '' },
-        llmExplanation: { type: String, default: '' },
-        steps: {
-            type: Array as PropType<Step[]>,
-            default: () => []
-        }
+        // llmExplanation: { type: String, default: '' },
+        // steps: {
+        //     type: Array as PropType<Step[]>,
+        //     default: () => []
+        // }
     }
 })
 </script>

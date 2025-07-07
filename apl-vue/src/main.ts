@@ -22,19 +22,19 @@ self.MonacoEnvironment = {
   },
 }
 
-monaco.languages.register({ id: 'mylang' })
-monaco.languages.setMonarchTokensProvider('mylang', {
-  tokenizer: {
-    root: [
-      [/\blet\b/, 'keyword'],
-      [/\bif\b|\belse\b|\bfor\b/, 'keyword'],
-      [/\d+/, 'number'],
-      [/\/\/.*$/, 'comment'],
-      [/[a-zA-Z][a-zA-Z0-9]*/, 'identifier'],
-      [/[+\-*/=()]/, 'operator']
-    ]
-  }
-})
+// monaco.languages.register({ id: 'mylang' })
+// monaco.languages.setMonarchTokensProvider('mylang', {
+//   tokenizer: {
+//     root: [
+//       [/\blet\b/, 'keyword'],
+//       [/\bif\b|\belse\b|\bfor\b/, 'keyword'],
+//       [/\d+/, 'number'],
+//       [/\/\/.*$/, 'comment'],
+//       [/[a-zA-Z][a-zA-Z0-9]*/, 'identifier'],
+//       [/[+\-*/=()]/, 'operator']
+//     ]
+//   }
+// })
 
 loader.config({ monaco })
 
