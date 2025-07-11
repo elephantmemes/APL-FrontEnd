@@ -1,13 +1,13 @@
 <template>
-    <div class="bg-white min-h-96 shadow rounded-lg p-6">
+    <div class="bg-white min-h-96 h-full w-full shadow rounded-lg p-6">
         <!-- Tab Navigation -->
         <div class="border-b border-gray-200 mb-4">
-            <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+            <nav class="w-full flex justify-center" aria-label="Tabs">
                 <button @click="activeTab = 'output'" :class="[
                     activeTab === 'output'
                         ? 'border-blue-500 text-blue-600'
                         : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
-                    'whitespace-nowrap py-2 px-1 border-b-2 font-medium'
+                    'whitespace-nowrap w-full py-2 px-1 cursor-pointer border-b-2 font-medium'
                 ]">
                     Output & Explanation
                 </button>
@@ -15,7 +15,7 @@
                     activeTab === 'analysis'
                         ? 'border-blue-500 text-blue-600'
                         : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
-                    'whitespace-nowrap py-2 px-1 border-b-2 font-medium'
+                    'whitespace-nowrap w-full cursor-pointer py-2 px-1 border-b-2 font-medium'
                 ]">
                     Tokens & Parse Tree
                 </button>
@@ -43,7 +43,7 @@
         </div>
 
         <div v-show="activeTab === 'analysis'" class="tab-content">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class=" border grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Tokens -->
                 <div>
                     <h3 class="text-lg font-semibold mb-2">Tokens</h3>
