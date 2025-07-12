@@ -87,7 +87,7 @@ const handleFileUpload = async () => {
   if (!file.value) return error.value = "Must have file content"
 
   try {
-    const text = '""""' + await file.value.text() + '""""'
+    const text = await file.value.text()
     console.log('File uploading')
 
     // Clear previous results
@@ -98,7 +98,7 @@ const handleFileUpload = async () => {
     parseTree.value = ''
 
     // Send the code content to the backend
-    const response = await axios.post('https://apl-compiler-backend.onrender.com/compiler/compile', {
+    const response = await axios.post('https://compiler-dnekb9h7axggaxam.canadacentral-01.azurewebsites.net//compiler/compile', {
       code: text,
     })
 
