@@ -237,7 +237,7 @@ const handleFileUpload = async () => {
       </div>
 
       <div v-else class="w-full lg:w-1/2 h-3/4">
-        <OutputTabs :explanation="explanation" :output="output" :parse-tree="parseTree" :tokens="tokens" />
+        <OutputTabs :error="error" :explanation="explanation" :output="output" :parse-tree="parseTree" :tokens="tokens" />
       </div>
     </div>
 
