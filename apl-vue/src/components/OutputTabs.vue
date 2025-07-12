@@ -39,14 +39,18 @@
                 <div v-if="error" class="bg-red-50 border-l-4 border-red-500 p-4 rounded-md shadow-sm">
                     <h3 class="text-lg font-semibold mb-2 flex items-center text-red-700">
                         <span class="inline-block w-2 h-2 bg-red-500 rounded-full mr-2"></span>
-                        Error
+                        Execution Error
                     </h3>
-                    <pre
-                        class="whitespace-pre-wrap font-mono text-sm bg-red-100 p-3 rounded overflow-auto max-h-60">{{ error }}</pre>
+                    <p class="whitespace-pre-wrap">{{ error }}</p>
+                    <!-- <button @click="$emit('retry')" v-if="buttonState === 'error'"
+                        class="mt-2 px-3 py-1 text-xs bg-red-100 text-red-800 rounded hover:bg-red-200">
+                        Try Again
+                    </button> -->
                 </div>
 
                 <!-- Explanation -->
-                <div v-if="explanation" class="bg-blue-50 border-l-4 border-blue-100 overflow-auto p-4 border rounded-md shadow-sm">
+                <div v-if="explanation"
+                    class="bg-blue-50 border-l-4 border-blue-100 overflow-auto h-70 p-4 border rounded-md shadow-sm">
                     <h3 class="text-lg font-semibold mb-2 flex items-center">
                         <span class="inline-block w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
                         LLM Explanation
