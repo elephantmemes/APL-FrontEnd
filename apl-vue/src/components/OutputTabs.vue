@@ -43,7 +43,7 @@
         </div>
 
         <div v-show="activeTab === 'analysis'" class="tab-content">
-            <div class=" border grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class=" grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Tokens -->
                 <div>
                     <h3 class="text-lg font-semibold mb-2">Tokens</h3>
