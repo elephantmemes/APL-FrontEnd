@@ -10,10 +10,10 @@ interface Token {
   value: string
 }
 
-interface Step {
-  message: string
-  status: 'success' | 'failure'
-}
+// interface Step {
+//   message: string
+//   status: 'success' | 'failure'
+// }
 
 
 // Reactive variables
