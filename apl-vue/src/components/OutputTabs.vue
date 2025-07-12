@@ -36,7 +36,7 @@
                 </div>
 
                 <!-- Error -->
-                <div v-if="error" class="bg-red-100 border-l-4 border-red-500 p-4 rounded-md shadow-sm">
+                <div v-if="error" class="bg-red-50 border-l-4 border-red-500 p-4 rounded-md shadow-sm">
                     <h3 class="text-lg font-semibold mb-2 flex items-center text-red-700">
                         <span class="inline-block w-2 h-2 bg-red-500 rounded-full mr-2"></span>
                         Error

@@ -232,12 +232,11 @@ const handleFileUpload = async () => {
       </div>
 
       <!-- Output Section -->
-      <div v-if="isLoading" class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-        <div class="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-      </div>
 
-      <div v-else class="w-full lg:w-1/2 h-3/4">
-        <OutputTabs :error="error" :explanation="explanation" :output="output" :parse-tree="parseTree" :tokens="tokens" />
+
+      <div class="w-full lg:w-1/2 h-3/4">
+        <OutputTabs :error="error" :explanation="explanation" :output="output" :parse-tree="parseTree"
+          :tokens="tokens" />
       </div>
     </div>
 
