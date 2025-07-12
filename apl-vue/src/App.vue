@@ -70,7 +70,7 @@ const handleFileUpload = async () => {
     parseTree.value = ''
 
     // Send the code content to the backend
-    const response = await axios.post('http://localhost:5000/compiler/compile', {
+    const response = await axios.post('https://apl-compiler-backend.onrender.com/compiler/compile', {
       code: text,
     })
 
