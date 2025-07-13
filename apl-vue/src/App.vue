@@ -5,6 +5,9 @@ import axios from 'axios'
 import CodeViewer from './components/CodeViewer.vue'
 import AlertIcon from './components/AlertIcon.vue'
 import CheckmarkIcon from './components/CheckmarkIcon.vue'
+import { useToast } from 'vue-toast-notification'
+
+
 
 // Reactive variables
 const file = ref<File | null>(null)
@@ -16,6 +19,7 @@ const parseTree = ref<string>('')
 const isLoading = ref(false)
 const fileContent = ref<string>('')
 const upload = ref(false)
+const toast = useToast()
 
 // Define button states
 type ButtonState = 'idle' | 'loading' | 'success' | 'error'
@@ -24,6 +28,7 @@ const buttonState = ref<ButtonState>('idle')
 
 // Handle file input change
 const handleFileChange = (event: Event) => {
+  fileContent.value = ''
   const target = event.target as HTMLInputElement
   file.value = target.files ? target.files[0] : null
 
@@ -38,44 +43,42 @@ const handleFileChange = (event: Event) => {
   }
 }
 
-// const resetAndRetry = async () => {
-//   // Reset all states
-//   output.value = ''
-//   error.value = ''
-//   explanation.value = ''
-//   tokens.value = []
-//   parseTree.value = ''
-
-//   // Retry execution
-//   buttonState.value = 'loading'
-
-//   try {
-//     await handleFileUpload()
-//     buttonState.value = 'success'
-//   } catch (err) {
-//     error.value = 'Failed to run code. Please try again.'
-//     buttonState.value = 'error'
-//   }
-
-//   setTimeout(() => {
-//     if (buttonState.value !== 'loading') {
-//       buttonState.value = 'idle'
-//     }
-//   }, 3000)
-// }
-
 // Handle form submission
 const handleSubmit = async () => {
-  if (!file.value) return
+  if (!file.value) {
+    toast.error('File is required to run the code.', {
+      position: 'top-right',
+      duration: 3000,
+    })
+    return
+  }
+
+  // Reset all outputs and state before uploading
+  output.value = []
+  error.value = ''
+  explanation.value = ''
+  tokens.value = []
+  parseTree.value = ''
+  upload.value = false
+  buttonState.value = 'loading'
 
   isLoading.value = true
 
   try {
     await handleFileUpload()
+    buttonState.value = 'success'
+  } catch (err) {
+    buttonState.value = 'error'
   } finally {
     isLoading.value = false
+    setTimeout(() => {
+      if (buttonState.value !== 'loading') {
+        buttonState.value = 'idle'
+      }
+    }, 3000)
   }
 }
+
 
 // Handle file upload
 const handleFileUpload = async () => {
@@ -93,7 +96,7 @@ const handleFileUpload = async () => {
     parseTree.value = ''
 
     // Send the code content to the backend
-    const response = await axios.post('https://compiler-dnekb9h7axggaxam.canadacentral-01.azurewebsites.net//compiler/compile', {
+    const response = await axios.post('https://compiler-dnekb9h7axggaxam.canadacentral-01.azurewebsites.net/compiler/compile', {
       code: text,
     })
 
@@ -122,7 +125,7 @@ const handleFileUpload = async () => {
 </script>
 
 <template>
-  <section class="h-screen lg:p-16 items-center w-full bg-stone-100 p-6">
+  <section class="min-h-screen h-screen lg:p-16 items-center w-full bg-stone-100 p-6">
     <h1 class="text-3xl text-center font-bold">Analysis of Programming Languages</h1>
 
     <div class="w-full flex flex-col h-full lg:flex-row gap-10 justify-center items-center mx-auto">
@@ -141,7 +144,7 @@ const handleFileUpload = async () => {
                      file:bg-blue-50 w-full file:text-blue-700 hover:file:bg-blue-100 disabled:bg-stone-300" />
 
             <!-- Submit Button -->
-            <button @click="handleSubmit" :disabled="buttonState === 'loading'" :class="[
+            <button @click="handleSubmit" ::disabled="buttonState === 'loading' || !file" :class="[
               'px-4 py-2 rounded-md font-medium cursor-pointer text-sm lg:w-56 flex items-center justify-center gap-2 transition-colors',
               {
                 'bg-blue-200 hover:bg-blue-300 text-blue-700': buttonState === 'idle',
@@ -175,8 +178,9 @@ const handleFileUpload = async () => {
 
       <!-- Output Section -->
       <div class="w-full lg:w-1/2 h-5/6">
-        <OutputTabs :error="error" :explanation="explanation" :output="output" :parse-tree="parseTree"
-          :tokens="tokens" />
+        <OutputTabs :output="output" :explanation="explanation" :tokens="tokens" :parse-tree="parseTree"
+          :is-loading="isLoading" />
+
       </div>
     </div>
 
