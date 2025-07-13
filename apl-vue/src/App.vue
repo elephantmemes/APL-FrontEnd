@@ -5,11 +5,6 @@ import axios from 'axios'
 import CodeViewer from './components/CodeViewer.vue'
 import AlertIcon from './components/AlertIcon.vue'
 import CheckmarkIcon from './components/CheckmarkIcon.vue'
-// Define types
-interface Token {
-  type: string
-  value: string
-}
 
 // Reactive variables
 const file = ref<File | null>(null)
