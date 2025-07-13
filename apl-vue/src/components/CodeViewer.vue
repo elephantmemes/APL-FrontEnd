@@ -5,7 +5,7 @@
       <p>Code Viewer</p>
     </div>
     <pre class="p-4 font-mono text-sm whitespace-pre-wrap break-all overflow-auto">
-      <code>{{ code }}</code>
+      <code class="overflow-auto">{{ code }}</code>
     </pre>
   </div>
 </template>
