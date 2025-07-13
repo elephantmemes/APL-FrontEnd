@@ -1,127 +1,133 @@
 <template>
-    <div :class="[
-        'min-h-96 h-full w-full shadow rounded-lg p-6 transition-all duration-200',
-        outputHasError ? 'bg-red-100' : 'bg-white'
-    ]">
-        <!-- Tab Navigation -->
-        <div class="mb-6 w-full">
-            <nav class="flex justify-center w-full gap-3" aria-label="Tabs">
-                <button @click="activeTab = 'output'" :class="[activeTab === 'output'
-                    ? 'bg-blue-50 text-blue-700 border-blue-500'
-                    : 'text-gray-500 hover:text-gray-700 hover:border-gray-300',
-                    'px-4 py-2 font-medium text-sm w-full rounded-t-md border-b-2 transition'
-                ]">
-                    Output & Explanation
-                </button>
-                <button @click="activeTab = 'analysis'" :class="[activeTab === 'analysis'
-                    ? 'bg-blue-50 text-blue-700 border-blue-500'
-                    : 'text-gray-500 hover:text-gray-700 hover:border-gray-300',
-                    'px-4 py-2 font-medium text-sm w-full rounded-t-md border-b-2 transition'
-                ]">
-                    Tokens & Parse Tree
-                </button>
-            </nav>
-        </div>
+    <div class="h-full">
+        <div :class="[
+            'shadow-lg rounded-lg p-6 transition-all h-full duration-300',
+            outputHasError ? 'bg-red-100' : 'bg-white'
+        ]">
+            <!-- Tab Navigation -->
+            <div class="mb-6 w-full">
+                <nav class="flex justify-center w-full gap-4" aria-label="Tabs">
+                    <button @click="activeTab = 'output'" :class="[activeTab === 'output'
+                        ? 'bg-blue-600 text-white shadow-md'
+                        : 'text-gray-600 hover:text-blue-600 hover:shadow-sm',
+                        'px-5 py-3 font-semibold w-full text-md rounded-lg transition'
+                    ]" aria="activeTab === 'output'">
+                        Output & Explanation
+                    </button>
+                    <button @click="activeTab = 'analysis'" :class="[activeTab === 'analysis'
+                        ? 'bg-blue-600 text-white shadow-md'
+                        : 'text-gray-600 hover:text-blue-600 hover:shadow-sm',
+                        'px-5 py-3 font-semibold w-full text-md rounded-lg transition'
+                    ]" aria="activeTab === 'analysis'">
+                        Tokens & Parse Tree
+                    </button>
+                </nav>
+            </div>
 
-        <!-- Output & Explanation Tab -->
-        <div v-show="activeTab === 'output'" class="tab-content animate-fadeIn">
-            <div class="space-y-6">
+            <!-- Output & Explanation Tab -->
+            <div v-show="activeTab === 'output'" class=" h-11/12 flex flex-col animate-fadeIn">
+                <div class="space-y-6 flex flex-col h-full">
 
-                <!-- Output Block -->
-                <div v-if="isLoading || output.length" :class="[
-                    'p-4 rounded-md shadow-sm border-l-4',
-                    isLoading
-                        ? 'bg-yellow-50 border-yellow-400'
-                        : outputHasError
-                            ? 'bg-red-50 border-red-500'
-                            : 'bg-green-50 border-green-400'
-                ]">
-                    <h3 class="text-lg font-semibold mb-2 flex items-center" :class="{
-                        'text-yellow-700': isLoading,
-                        'text-red-700': !isLoading && outputHasError,
-                        'text-green-700': !isLoading && !outputHasError
-                    }">
-                        <span class="inline-block w-2 h-2 rounded-full mr-2" :class="{
-                            'bg-yellow-500': isLoading,
-                            'bg-red-500': !isLoading && outputHasError,
-                            'bg-green-500': !isLoading && !outputHasError
-                        }"></span>
-                        {{
-                            isLoading
-                                ? 'Processing...'
-                                : outputHasError
-                                    ? 'Execution Error'
-                                    : 'Execution Output'
-                        }}
-                    </h3>
+                    <!-- Output Block -->
+                    <div v-if="isLoading || output.length" :class="[
+                        'p-5 rounded-md h-1/2 shadow-md border-l-4 transition-colors duration-300',
+                        isLoading
+                            ? 'bg-yellow-50 h-min border-yellow-500'
+                            : outputHasError
+                                ? 'bg-red-50 border-red-600'
+                                : 'bg-green-50 border-green-500'
+                    ]">
+                        <h3 class="text-lg font-semibold mb-3 flex items-center" :class="{
+                            'text-yellow-700': isLoading,
+                            'text-red-700': !isLoading && outputHasError,
+                            'text-green-700': !isLoading && !outputHasError
+                        }">
+                            <span class="inline-block w-2 h-2 rounded-full mr-2" :class="{
+                                'bg-yellow-500': isLoading,
+                                'bg-red-500': !isLoading && outputHasError,
+                                'bg-green-500': !isLoading && !outputHasError
+                            }"></span>
+                            {{
+                                isLoading
+                                    ? 'Processing...'
+                                    : outputHasError
+                                        ? 'Execution Error'
+                                        : 'Execution Output'
+                            }}
+                        </h3>
 
-                    <!-- Spinner while loading -->
-                    <div v-if="isLoading" class="flex items-center gap-2 text-sm text-gray-700">
-                        <svg class="animate-spin h-5 w-5 text-yellow-500" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
-                            <path class="opacity-75" fill="currentColor"
-                                d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8h4z" />
-                        </svg>
-                        Running code...
+                        <!-- Spinner while loading -->
+                        <div v-if="isLoading" class="flex h-min items-center gap-2 text-sm text-gray-700">
+                            <svg class="animate-spin h-5 w-5 text-yellow-500" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4" />
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8h4z" />
+                            </svg>
+                            Running code...
+                        </div>
+
+                        <!-- Actual Output -->
+                        <pre v-else
+                            class="whitespace-pre-wrap break-words font-mono text-sm bg-gray-100 p-4 rounded-md overflow-auto w-full h-5/6">
+                            <code class="whitespace-pre-wrap break-words font-mono text-sm">
+                                {{ output }}
+                            </code>
+                        </pre>
                     </div>
 
-                    <!-- Actual Output -->
-                    <pre v-else
-                        class="whitespace-pre-wrap font-mono text-sm bg-gray-100 p-3 rounded overflow-auto max-h-60">
-                        <code v-for="(line, index) in output" :key="'out-' + index" :class="outputHasError ? 'text-red-700' : ''">
-                            {{ line }}
-                        </code>
-                    </pre>
-                </div>
-                <!-- Markdown Explanation -->
-                <div v-if="explanation"
-                    class="bg-blue-50 border-l-4 border-blue-100 overflow-auto h-72 p-4 border rounded-md shadow-sm">
-                    <h3 class="text-lg font-semibold mb-2 flex items-center">
-                        <span class="inline-block w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
-                        LLM Explanation
-                    </h3>
-                    <vue-markdown :source="explanation" class="prose max-w-none text-gray-800" />
+                    <!-- Markdown Explanation -->
+                    <div v-if="explanation"
+                        class="bg-blue-50 border-l-4 border-blue-200 overflow-auto h-1/2 p-4 border rounded-md shadow-md">
+                        <h3 class="text-lg font-semibold mb-2 flex items-center">
+                            <span class="inline-block w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                            LLM Explanation
+                        </h3>
+                        <vue-markdown :source="explanation" class="prose max-w-none text-gray-800" />
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Tokens & Parse Tree Tab -->
-        <div v-show="activeTab === 'analysis'" class="tab-content animate-fadeIn">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Tokens -->
-                <div>
-                    <h3 class="text-lg font-semibold mb-2">Tokens</h3>
-                    <div v-if="tokens.length"
-                        class="bg-gray-50 border border-gray-200 rounded-md p-4 overflow-auto max-h-96 shadow-inner font-mono text-sm space-y-4">
-                        <div v-for="(group, index) in groupedTokens" :key="'tok-' + index" class="border-b pb-2">
-                            <div>
-                                <span class="font-bold px-2 py-1 rounded text-white text-xs"
-                                    :class="tokenColorClass(group[0])">
-                                    {{ extractTokenType(group[0]) }}
-                                </span>
-                                <span class="ml-2">{{ group[0] }}</span>
+            <!-- Tokens & Parse Tree Tab -->
+            <div v-show="activeTab === 'analysis'" class="h-full flex overflow-hidden animate-fadeIn">
+                <div class="flex w-full gap-6">
+                    <!-- Tokens -->
+                    <div class="w-1/2 h-5/6">
+                        <h3 class="text-lg font-semibold mb-2">Tokens</h3>
+                        <div v-if="tokens.length"
+                            class="bg-gray-50 border border-gray-200 flex flex-col p-3 rounded-md overflow-auto h-full shadow-inner font-mono text-sm space-y-4">
+                            <div v-for="(group, index) in groupedTokens" :key="'tok-' + index" class="border-b w-full h-min pb-1">
+                                <div class="w-full flex gap-1 flex-col">
+                                    <span class="font-bold px-2 py-1 rounded w-full text-white text-xs"
+                                        :class="tokenColorClass(group[0])">
+                                        {{ extractTokenType(group[0]) }}
+                                    </span>
+                                    <span class="text-wrap">{{ group[0] }}</span>
+                                </div>
+                                <div class="text-gray-700">{{ group[1] }}</div>
+                                <div class="text-blue-700">{{ group[2] }}</div>
                             </div>
-                            <div class="text-gray-700">{{ group[1] }}</div>
-                            <div class="text-blue-700">{{ group[2] }}</div>
                         </div>
+                        <p v-else class="text-gray-500 italic">No tokens available.</p>
                     </div>
-                    <p v-else class="text-gray-500 italic">No tokens available.</p>
-                </div>
 
-                <!-- Parse Tree -->
-                <div>
-                    <h3 class="text-lg font-semibold mb-2">Parse Tree</h3>
-                    <div v-if="parseTree"
-                        class="bg-gray-50 border border-gray-200 rounded-md p-4 overflow-auto max-h-96 shadow-inner font-mono text-sm">
-                        <pre>{{ parseTree }}</pre>
+                    <!-- Parse Tree -->
+                    <div class="w-1/2 h-5/6">
+                        <h3 class="text-lg font-semibold mb-2">Parse Tree</h3>
+                        <div v-if="parseTree"
+                            class="bg-gray-50 border border-gray-200 rounded-md p-4 overflow-auto h-full shadow-inner font-mono text-sm">
+                            <pre>{{ parseTree }}</pre>
+                        </div>
+                        <p v-else class="text-gray-500 italic">No parse tree available.</p>
                     </div>
-                    <p v-else class="text-gray-500 italic">No parse tree available.</p>
                 </div>
             </div>
         </div>
     </div>
 </template>
+
+
 
 <script lang="ts">
 import { defineComponent, ref, computed, type PropType } from 'vue'

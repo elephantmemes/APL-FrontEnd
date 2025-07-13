@@ -125,64 +125,51 @@ const handleFileUpload = async () => {
 </script>
 
 <template>
-  <section class="min-h-screen h-screen lg:p-16 items-center w-full bg-stone-100 p-6">
-    <h1 class="text-3xl text-center font-bold">Analysis of Programming Languages</h1>
+  <section class="min-h-screen h-screen overflow-auto p-10 lg:overflow-hidden lg:px-20 py-10 bg-stone-50 flex flex-col items-center">
+    <h1 class="text-4xl text-center font-bold mb-8">Analysis of Programming Languages</h1>
 
-    <div class="w-full flex flex-col h-full lg:flex-row gap-10 justify-center items-center mx-auto">
-      <!-- Card -->
-      <div class="bg-white w-full h-5/6 lg:w-1/2 shadow rounded-lg p-6">
-        <!-- File Upload Section -->
-        <div class="px-5 flex h-full flex-col gap-5 p-5">
-          <h1 class="font-bold text-xl">Uploaded Code File</h1>
-          <CodeViewer :code="fileContent" />
-          <label for="file-upload" class="font-semibold text-gray-700">
-            Upload Code File
-          </label>
-          <div class="flex gap-5 justify-center items-center">
-            <input type="file" id="file-upload" required @change="handleFileChange" accept=".txt,.code" class="text-sm lg:min-w-96 cursor-pointer text-stone-500 file:mr-4 file:py-2 file:px-4
-                     file:rounded file:border-0 file:text-sm file:font-semibold
-                     file:bg-blue-50 w-full file:text-blue-700 hover:file:bg-blue-100 disabled:bg-stone-300" />
+    <div class="w-full flex flex-col h-1/2 lg:h-11/12 lg:flex-row gap-10 justify-center items-center">
+      <!-- Card for File Upload -->
+      <div class="bg-white w-full lg:w-1/2 shadow-lg rounded-lg p-6 flex flex-col h-full">
+        <h2 class="font-bold text-xl mb-4">Uploaded Code File</h2>
+        <CodeViewer :code="fileContent" />
 
-            <!-- Submit Button -->
-            <button @click="handleSubmit" ::disabled="buttonState === 'loading' || !file" :class="[
-              'px-4 py-2 rounded-md font-medium cursor-pointer text-sm lg:w-56 flex items-center justify-center gap-2 transition-colors',
-              {
-                'bg-blue-200 hover:bg-blue-300 text-blue-700': buttonState === 'idle',
-                'bg-green-200 text-green-700': buttonState === 'success',
-                'bg-red-200 text-red-700': buttonState === 'error',
-                'bg-blue-300 text-gray-500 cursor-not-allowed': buttonState === 'loading'
-              }
-            ]">
-              <!-- Success Icon -->
-              <span v-if="(buttonState === 'success' && upload)">
-                <CheckmarkIcon />
-              </span>
+        <label for="file-upload" class="font-semibold text-gray-700 mt-4">Upload Code File</label>
+        <input type="file" id="file-upload" required @change="handleFileChange" accept=".txt,.code" class="text-sm lg:min-w-96 cursor-pointer text-stone-500 file:mr-4 file:py-2 file:px-4
+          file:rounded file:border-0 file:text-sm file:font-semibold
+          file:bg-blue-50 w-full file:text-blue-700 hover:file:bg-blue-100 disabled:bg-stone-300" />
 
-              <!-- Error Icon + Retry Option -->
-              <span v-else-if="buttonState === 'error'" class="flex items-center gap-2">
-                <AlertIcon />
-                <span>Try Again</span>
-              </span>
-
-              <!-- Loading Spinner -->
-              <span v-else-if="buttonState === 'loading'">
-                <p>Processing</p>
-              </span>
-
-              <!-- Default Text -->
-              <span v-else>{{ buttonState === 'idle' ? 'Run Code' : 'Processing...' }}</span>
-            </button>
-          </div>
+        <!-- Submit Button -->
+        <div class="mt-4 flex justify-center">
+          <button @click="handleSubmit" :disabled="buttonState === 'loading'" :class="[
+            'px-4 py-2 rounded-md font-medium cursor-pointer text-sm lg:w-56 flex items-center justify-center gap-2 transition-colors',
+            {
+              'bg-blue-600 hover:bg-blue-700 text-white': buttonState === 'idle',
+              'bg-green-300 text-white': buttonState === 'success',
+              'bg-red-600 text-white': buttonState === 'error',
+              'bg-blue-300 text-gray-500 cursor-not-allowed': buttonState === 'loading'
+            }
+          ]">
+            <span v-if="(buttonState === 'success' && upload)">
+              <CheckmarkIcon />
+            </span>
+            <span v-else-if="buttonState === 'error'" class="flex items-center gap-2">
+              <AlertIcon />
+              <span>Try Again</span>
+            </span>
+            <span v-else-if="buttonState === 'loading'">
+              <p>Processing...</p>
+            </span>
+            <span v-else>{{ buttonState === 'idle' ? 'Run Code' : 'Processing...' }}</span>
+          </button>
         </div>
       </div>
 
       <!-- Output Section -->
-      <div class="w-full lg:w-1/2 h-5/6">
+      <div class="w-full lg:w-1/2 h-1/2 lg:h-full">
         <OutputTabs :output="output" :explanation="explanation" :tokens="tokens" :parse-tree="parseTree"
           :is-loading="isLoading" />
-
       </div>
     </div>
-
   </section>
 </template>
