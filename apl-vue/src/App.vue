@@ -13,10 +13,10 @@ interface Token {
 
 // Reactive variables
 const file = ref<File | null>(null)
-const output = ref<string>('')
+const output = ref<string[]>([])
 const error = ref<string>('')
 const explanation = ref<string>('')
-const tokens = ref<Token[]>([])
+const tokens = ref<string[]>([])
 const parseTree = ref<string>('')
 const isLoading = ref(false)
 const fileContent = ref<string>('')
@@ -91,7 +91,7 @@ const handleFileUpload = async () => {
     console.log('File uploading')
 
     // Clear previous results
-    output.value = ''
+    output.value = []
     error.value = ''
     explanation.value = ''
     tokens.value = []
