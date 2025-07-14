@@ -14,48 +14,35 @@
     <div class="flex-1 overflow-auto w-full h-full p-0 m-0 text-sm font-mono">
       <div class="flex w-full">
         <!-- Line Numbers -->
-        <div class="text-right pr-4 py-8 bg-stone-50 select-none text-gray-400">
-          <div v-for="(_, index) in lineCount" :key="index" class="leading-relaxed">
+        <ul class="text-center px-2 bg-stone-50 select-none text-gray-400">
+          <li v-for="(_, index) in lineCount" :key="index" class=" leading-[1.25rem] ">
             {{ index + 1 }}
-          </div>
-        </div>
+          </li>
+        </ul>
 
         <!-- Highlighted Code -->
-        <pre class="whitespace-pre-wrap break-words overflow-x-auto m-0 p-0 flex-1">
-          <code ref="codeRef" class="language-javascript text-gray-800">{{ code }}</code>
-        </pre>
+        <pre
+          class="overflow-x-auto m-0 p-0 flex-1"><code ref="codeRef" class=" whitespace-pre">{{ cleanedCode }}</code></pre>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted, computed } from 'vue'
-import hljs from 'highlight.js/lib/core'
-import javascript from 'highlight.js/lib/languages/javascript'
-import 'highlight.js/styles/github.css' // Choose your favorite theme
-
-hljs.registerLanguage('javascript', javascript)
+import { ref, computed } from 'vue'
+import 'highlight.js/styles/github.css'
 
 const props = defineProps<{
   code: string
 }>()
 
+const cleanedCode = computed(() => props.code.trimStart())
 const codeRef = ref<HTMLElement | null>(null)
 const copied = ref(false)
-
-const highlight = () => {
-  if (codeRef.value) {
-    hljs.highlightElement(codeRef.value)
-  }
-}
 
 const lineCount = computed(() => {
   return props.code ? props.code.split('\n').length : 0
 })
-
-watch(() => props.code, highlight)
-onMounted(highlight)
 
 const copyCode = async () => {
   if (!props.code) return

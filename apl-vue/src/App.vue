@@ -7,8 +7,6 @@ import AlertIcon from './components/AlertIcon.vue'
 import CheckmarkIcon from './components/CheckmarkIcon.vue'
 import { useToast } from 'vue-toast-notification'
 
-
-
 // Reactive variables
 const file = ref<File | null>(null)
 const output = ref<string[]>([])
@@ -25,7 +23,6 @@ const toast = useToast()
 type ButtonState = 'idle' | 'loading' | 'success' | 'error'
 const buttonState = ref<ButtonState>('idle')
 
-
 // Handle file input change
 const handleFileChange = (event: Event) => {
   fileContent.value = ''
@@ -41,6 +38,8 @@ const handleFileChange = (event: Event) => {
   } else {
     fileContent.value = ''
   }
+
+  console.log("from file: " + file.value)
 }
 
 // Handle form submission
@@ -79,7 +78,6 @@ const handleSubmit = async () => {
   }
 }
 
-
 // Handle file upload
 const handleFileUpload = async () => {
   if (!file.value) return error.value = "Must have file content"
@@ -103,7 +101,8 @@ const handleFileUpload = async () => {
     const result = response.data
     upload.value = true
     // Populate UI with real backend data
-    output.value = result.output || ''
+    output.value = (result.output || []).map((line: string) => line.trim())
+    console.log(output)
     error.value = result.error || ''
     explanation.value = result.explanation || ''
     tokens.value = result.tokens || []
@@ -125,7 +124,8 @@ const handleFileUpload = async () => {
 </script>
 
 <template>
-  <section class="min-h-screen h-screen overflow-auto p-10 lg:overflow-hidden lg:px-20 py-10 bg-stone-50 flex flex-col items-center">
+  <section
+    class="min-h-screen h-screen overflow-auto p-10 lg:overflow-hidden lg:px-20 py-10 bg-stone-50 flex flex-col items-center">
     <h1 class="text-4xl text-center font-bold mb-8">Analysis of Programming Languages</h1>
 
     <div class="w-full flex flex-col h-1/2 lg:h-11/12 lg:flex-row gap-10 justify-center items-center">

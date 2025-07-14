@@ -32,7 +32,7 @@
                     <div v-if="isLoading || output.length" :class="[
                         'p-5 rounded-md h-1/2 shadow-md border-l-4 transition-colors duration-300',
                         isLoading
-                            ? 'bg-yellow-50 h-min border-yellow-500'
+                            ? 'bg-yellow-50 h-fit border-yellow-500'
                             : outputHasError
                                 ? 'bg-red-50 border-red-600'
                                 : 'bg-green-50 border-green-500'
@@ -69,14 +69,13 @@
                         </div>
 
                         <!-- Actual Output -->
-                        <pre v-else
-                            class="whitespace-pre-wrap break-words font-mono text-sm bg-gray-100 p-4 rounded-md overflow-auto w-full h-5/6">
-                            <code class="whitespace-pre-wrap break-words font-mono text-sm">
-                                {{ output }}
-                            </code>
-                        </pre>
-                    </div>
+                        <ul class="rounded-md overflow-auto w-full h-5/6 p-2 font-mono text-sm">
+                            <li v-for="(line, index) in formattedLines" :key="index" class="whitespace-pre">
+                                {{ line }}
+                            </li>
+                        </ul>
 
+                    </div>
                     <!-- Markdown Explanation -->
                     <div v-if="explanation"
                         class="bg-blue-50 border-l-4 border-blue-200 overflow-auto h-1/2 p-4 border rounded-md shadow-md">
@@ -97,7 +96,8 @@
                         <h3 class="text-lg font-semibold mb-2">Tokens</h3>
                         <div v-if="tokens.length"
                             class="bg-gray-50 border border-gray-200 flex flex-col p-3 rounded-md overflow-auto h-full shadow-inner font-mono text-sm space-y-4">
-                            <div v-for="(group, index) in groupedTokens" :key="'tok-' + index" class="border-b w-full h-min pb-1">
+                            <div v-for="(group, index) in groupedTokens" :key="'tok-' + index"
+                                class="border-b w-full h-min pb-1">
                                 <div class="w-full flex gap-1 flex-col">
                                     <span class="font-bold px-2 py-1 rounded w-full text-white text-xs"
                                         :class="tokenColorClass(group[0])">
@@ -150,7 +150,6 @@ export default defineComponent({
         })
 
         const activeTab = ref('output')
-
         const groupedTokens = computed(() => {
             const result: string[][] = []
             for (let i = 0; i < props.tokens.length; i += 3) {
@@ -158,6 +157,11 @@ export default defineComponent({
             }
             return result
         })
+
+        const formattedLines = computed(() => {
+            return props.output.map(line => line.trimStart())
+        })
+
 
         // Extract token type from LexToken(TYPE,...
         const extractTokenType = (line: string) => {
@@ -228,7 +232,8 @@ export default defineComponent({
             extractTokenType,
             tokenColorClass,
             outputHasError,
-            isLoading
+            isLoading,
+            formattedLines
         }
 
     }
