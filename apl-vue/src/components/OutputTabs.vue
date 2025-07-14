@@ -78,12 +78,12 @@
                     </div>
                     <!-- Markdown Explanation -->
                     <div v-if="explanation"
-                        class="bg-blue-50 border-l-4 border-blue-200 overflow-auto h-1/2 p-4 border rounded-md shadow-md">
+                        class="bg-blue-50 border-l-4 border-blue-200 overflow-auto h-full p-4 border rounded-md shadow-md">
                         <h3 class="text-lg font-semibold mb-2 flex items-center">
                             <span class="inline-block w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
                             LLM Explanation
                         </h3>
-                        <vue-markdown :source="explanation" class="prose max-w-none text-gray-800" />
+                        <vue-markdown :source="explanation" class="prose max-w-none h-full over-flow-scroll text-gray-800" />
                     </div>
                 </div>
             </div>
